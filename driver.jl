@@ -35,10 +35,15 @@ function driver(input_directory, output_directory)
     end
 
     # Load model.
+    println("Loading sepsis model...")
     model = load_sepsis_model()
 
     # Iterate over files.
-    for f in files
+    println("Predicting sepsis labels...")
+    num_files = length(files)
+    for (i, f) in enumerate(files)
+        println("    $i/$num_files...")
+
         # Load data.
         input_file = joinpath(input_directory, f)
         data = load_challenge_data(input_file)
@@ -55,6 +60,8 @@ function driver(input_directory, output_directory)
         output_file = joinpath(output_directory, f)
         save_challenge_predictions(output_file, scores, labels)
     end
+
+    println("Done.")
 end
 
 # Parse arguments.
